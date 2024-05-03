@@ -25,7 +25,6 @@
 #include "att.h"
 #include "attm_api.h"
 #include "gatt_api.h"
-#include "gapc_api.h"
 
 
 /*

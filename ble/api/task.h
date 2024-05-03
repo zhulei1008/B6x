@@ -205,8 +205,7 @@ enum type_id
     
     /******** App Layer Identifiers  ********/
     TID_APP          = 9,    // Application Task
-    TID_MESH         = 10,   // Mesh Service
-    TID_FMNA         = 11,   // FindMy Network Accessory
+    TID_MESH         = 10,   // Mesh Reserved 10~15
 
     /******** PRF Layer Identifiers  ********/
     /* User customize */
