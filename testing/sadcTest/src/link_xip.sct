@@ -1,0 +1,37 @@
+#! armcc -E --preinclude=..\src\cfg.h
+
+#define SCT_FLASH_BASE       (0x18000000)
+
+#if (SCT_FLASH_STEP)
+    #define SCT_FLASH        (0x18000000 + (0x1000 * SCT_FLASH_STEP))
+#else
+    #define SCT_FLASH        (0x18008000)
+#endif
+    
+#define SCT_FLASH_LEN        (0x18040000 - SCT_FLASH)
+
+LR_IROM1 SCT_FLASH SCT_FLASH_LEN  
+{
+    ER_IROM1 SCT_FLASH SCT_FLASH_LEN
+    {
+        *.o (RESET, +First)
+        *(InRoot$$Sections)
+        startup_*.o (+RO)
+        .ANY (+RO)
+    }
+
+    RW_IRAM_STACK 0x20003600-0x600 UNINIT 0x600
+    {
+        .ANY (STACK)
+    }
+    
+    RW_IRAM_USER 0x20003600 0x4A00
+    {
+        *.o(ram_func)
+        .ANY (+RW +ZI)
+    }
+
+    RW_IRAM_EM 0x20009000 0x1000   {  ; ZI data 
+        *ble6.lib (+RW +ZI)
+    }
+}

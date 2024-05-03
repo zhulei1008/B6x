@@ -1,0 +1,13 @@
+#ifndef __REG_EM_BLE_RX_DESC_H_
+#define __REG_EM_BLE_RX_DESC_H_
+
+#define REG_EM_BLE_RX_DESC_SIZE 28
+
+#if (EM_ADDR_0x20005000)
+#define REG_EM_BLE_RX_DESC_BASE_ADDR 0x20005000
+#else
+#define REG_EM_BLE_RX_DESC_BASE_ADDR 0x50004000
+#endif
+
+#endif // __REG_EM_BLE_RX_DESC_H_
+

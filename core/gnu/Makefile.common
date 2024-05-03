@@ -1,0 +1,74 @@
+SDK_ROOT          ?= ../..
+GNU_INSTALL_ROOT  ?= $(SDK_ROOT)/tools/gcc-arm-none-eabi-10.3-2021.10
+GNU_VERSION       ?= 10.3.1
+
+RM                 = rm -rf
+
+## Selecting Core
+CORTEX_M           = 0
+
+## Toolchain commands
+GNU_PREFIX         = arm-none-eabi
+CC                 = $(GNU_INSTALL_ROOT)/bin/$(GNU_PREFIX)-gcc
+CXX                = $(GNU_INSTALL_ROOT)/bin/$(GNU_PREFIX)-c++
+AS                 = $(GNU_INSTALL_ROOT)/bin/$(GNU_PREFIX)-as
+AR                 = $(GNU_INSTALL_ROOT)/bin/$(GNU_PREFIX)-ar -r
+LD                 = $(GNU_INSTALL_ROOT)/bin/$(GNU_PREFIX)-ld
+NM                 = $(GNU_INSTALL_ROOT)/bin/$(GNU_PREFIX)-nm
+OBJDUMP            = $(GNU_INSTALL_ROOT)/bin/$(GNU_PREFIX)-objdump
+OBJCOPY            = $(GNU_INSTALL_ROOT)/bin/$(GNU_PREFIX)-objcopy
+SIZE               = $(GNU_INSTALL_ROOT)/bin/$(GNU_PREFIX)-size
+STRIP              = $(GNU_INSTALL_ROOT)/bin/$(GNU_PREFIX)-strip
+
+
+## library file
+LIBFILES          ?= -lc_nano -lgcc -lnosys
+
+## library path
+LIBDIR            += -L $(GNU_INSTALL_ROOT)/lib/gcc/arm-none-eabi/$(GNU_VERSION)/thumb/v6-m/nofp
+LIBDIR            += -L $(GNU_INSTALL_ROOT)/arm-none-eabi/lib/thumb/v6-m/nofp
+LIBDIR            += -L $(SDK_ROOT)/drivers/lib
+
+## include
+INC                = $(GNU_INSTALL_ROOT)/arm-none-eabi/include
+
+## Options for specific architecture
+CORE               = CM$(CORTEX_M)
+ARCH_FLAGS         = -mthumb -mcpu=cortex-m$(CORTEX_M)
+
+## Startup code & linker script
+STARTUP           ?= $(SDK_ROOT)/core/gnu/startup.S
+LINKER_SCRIPT     ?= $(SDK_ROOT)/core/gnu/link_xip.ld
+
+# Optimization flags
+OPT               ?= -Os -g
+
+## C flags common to all targets
+CFLAGS            += $(OPT)
+CFLAGS            += $(ARCH_FLAGS)
+# Generate .d file
+#CFLAGS            += -MP -MD 
+CFLAGS            += -std=gnu11
+CFLAGS            += -Wall
+#CFLAGS            += -Werror
+# close all warning
+#CFLAGS           += -w
+CFLAGS            += -msoft-float
+# keep every function in a separate section, this allows linker to discard unused ones
+CFLAGS            += -ffunction-sections -fdata-sections -fno-strict-aliasing
+CFLAGS            += -fno-builtin -fshort-enums
+
+## Assembler flags common to all targets
+ASMFLAGS          += $(ARCH_FLAGS)
+# support ARM/Thumb interworking
+ASMFLAGS          += -mthumb-interwork
+
+## Linker flags
+LDFLAGS           += $(OPT)
+LDFLAGS           += -T$(LINKER_SCRIPT) -nostdlib -EL
+# Remove unused sections (on some targets)
+LDFLAGS           += --gc-sections
+# Reduce code size by using target specific optimizations
+LDFLAGS           += --relax
+# cross reference table
+LDFLAGS           += --cref

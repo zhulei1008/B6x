@@ -1,0 +1,5 @@
+INC_DIR = \
+-I $(SDK_ROOT)/core/ \
+-I $(SDK_ROOT)/core/reg \
+-I $(DRVS_ROOT)/api \
+-I $(DRVS_ROOT)/src/RTT

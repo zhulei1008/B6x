@@ -1,0 +1,24 @@
+C_SRC_FILES = \
+$(DRVS_ROOT)/src/aon.c \
+$(DRVS_ROOT)/src/btmr.c \
+$(DRVS_ROOT)/src/cache.c \
+$(DRVS_ROOT)/src/iopad.c \
+$(DRVS_ROOT)/src/dma.c \
+$(DRVS_ROOT)/src/exti.c \
+$(DRVS_ROOT)/src/flash.c \
+$(DRVS_ROOT)/src/fshc.c \
+$(DRVS_ROOT)/src/pwc.c \
+$(DRVS_ROOT)/src/pwm.c \
+$(DRVS_ROOT)/src/rcc.c \
+$(DRVS_ROOT)/src/rc_calib.c \
+$(DRVS_ROOT)/src/rtc.c \
+$(DRVS_ROOT)/src/trim.c \
+$(DRVS_ROOT)/src/uart.c \
+$(DRVS_ROOT)/src/RTT/RTT.c
+
+#$(DRVS_ROOT)/src/desc.c \
+#$(DRVS_ROOT)/src/fifo.c \
+#$(DRVS_ROOT)/src/endpoint.c \
+#$(DRVS_ROOT)/src/endpoint0.c \
+#$(DRVS_ROOT)/src/musbfsfc.c \
+#$(DRVS_ROOT)/src/reset.c \
